@@ -1,0 +1,20 @@
+.form-control {
+    border: 3px solid #ddd;
+    height: 50px;
+}
+.info-top{
+    background-color: purple;
+    border-radius: 5px;
+    padding: 10px;
+}
+form .form-bottom .input-error {
+    border-color: rgba(210, 44, 44, 0.78);
+}
+label {
+    font-weight: 500;
+    color: #7e7e7e;
+}
+.description{
+    text-align: left;
+    padding-left: 20px;
+}
