@@ -5,6 +5,7 @@ use App\GrupoXNivelEducativo;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Persona;
 use Illuminate\Http\Request;
 use App\Grupo as Grupo;
 use App\Comuna as Comuna;
@@ -28,6 +29,11 @@ use App\CondicionDificultad as CondicionDificultad;
 use App\RelacionXAspectoFomentoRelacion as RelacionXAspectoFomentoRelacion;
 use App\GrupoXCondicionAfinidad as GrupoXCondicionAfinidad;
 use App\GrupoXCondicionDificultad as GrupoXCondicionDificultad;
+use App\Barrio as Barrio;
+use App\DiaReunion as DiaReunion;
+use App\HoraReunion as HoraReunion;
+use App\ProcesoInteres as ProcesoInteres;
+use App\GrupoXProcesoInteres as GrupoXProcesoInteres;
 
 
 
@@ -49,6 +55,9 @@ class GrupoController extends Controller {
 	 * @return Response
 	 */
 	public function create($id_encargado){
+	    if(!($this->idPersonaValido($id_encargado))){
+            return redirect()->back()->with('error', 'El id ingresado no es valido');
+        }
         $nivelesEduc = NivelEducativo::all();
         $gruposPob = GrupoPoblacional::all();
         $comunas = Comuna::all();
@@ -58,8 +67,13 @@ class GrupoController extends Controller {
         $apoyos = Apoyo::all();
         $condicionesAfinidad = CondicionAfinidad::all();
         $condicionesDificultad = CondicionDificultad::all();
+        $barrios = Barrio::all();
+        $dias_reunion = DiaReunion::all()->sortBy('id');
+        $horas_reunion = HoraReunion::all();
+        $procesos_interes = ProcesoInteres::all();
         return view('registro_grupo', compact('id_encargado', 'nivelesEduc','gruposPob', 'comunas', 'tiemposInicio',
-            'lineasTrabajo', 'rangosEdad', 'gruposPob', 'apoyos', 'condicionesAfinidad', 'condicionesDificultad'));
+            'lineasTrabajo', 'rangosEdad', 'gruposPob', 'apoyos', 'condicionesAfinidad', 'condicionesDificultad',
+            'barrios', 'dias_reunion', 'horas_reunion', 'procesos_interes'));
 	}
 
 	/**
@@ -70,16 +84,19 @@ class GrupoController extends Controller {
 	public function store(Request $request)
 	{
 //        dd($request);
+        if($this->emailRegistrado($request->email)){
+            return redirect()->back()->withInput()->with('error', 'El correo electronico ya ha sido registrado');
+        }
         $grupo = new Grupo;
         $grupo->id_encargado = $request->id_encargado;
         $grupo->nombre = $request->nombre;
         $grupo->num_integrantes = $request->num_integrantes;
         $grupo->id_comuna = $request->id_comuna;
-        $grupo->barrio = $request->barrio;
         $grupo->otra_linea_trabajo = $request->otra_linea_trabajo;
         $grupo->id_tiempo_inicio = $request->id_tiempo_inicio;
         $grupo->telefono = $request->telefono;
         $grupo->email = $request->email;
+        $grupo->id_barrio = $request->id_barrio;
         $grupo->direccion = $request->direccion;
         $grupo->latitud = $request->latitud;
         $grupo->longitud = $request->longitud;
@@ -101,6 +118,8 @@ class GrupoController extends Controller {
             $grupo->apoyo_humano = 1;
         }
         $grupo->otro_apoyo = $request->otro_apoyo;
+        $grupo->id_dia_reunion = $request->id_dia_reunion;
+        $grupo->id_hora_reunion = $request->id_hora_reunion;
         $grupoSaved = $grupo->save();
 
         //si se agrego el registro con exito
@@ -172,6 +191,14 @@ class GrupoController extends Controller {
                 $grupoXGrupoPoblacional->save();
             }
 
+            //procesos de interes por grupo
+            foreach ($request->procesos_interes as $value){
+                $grupoXProcesoInteres = new GrupoXProcesoInteres;
+                $grupoXProcesoInteres->id_grupo = $insertedId;
+                $grupoXProcesoInteres->id_proceso_interes = $value;
+                $grupoXProcesoInteres->save();
+            }
+
             $idGrupo = $insertedId;
             return redirect("/paso3/$idGrupo");
 
@@ -227,5 +254,15 @@ class GrupoController extends Controller {
 	{
 		//
 	}
+
+	public function emailRegistrado($email){
+        $count = Grupo::where('email', $email)->count();
+        return $count > 0;
+    }
+
+    public function idPersonaValido($id){
+	    $count = Persona::where('id', $id)->count();
+        return $count == 1;
+    }
 
 }

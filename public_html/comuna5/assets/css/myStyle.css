@@ -18,3 +18,8 @@ label {
     text-align: left;
     padding-left: 20px;
 }
+#message{
+    max-width: 560px;
+    margin: 0 auto;
+    margin-top: 5%;
+}

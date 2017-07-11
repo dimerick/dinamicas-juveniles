@@ -17,6 +17,10 @@ use App\Apoyo as Apoyo;
 use App\GrupoXRangoEdad as GrupoXRangoEdad;
 use App\GrupoXLineaTrabajo as GrupoXLineaTrabajo;
 use App\GrupoXApoyo as GrupoXApoyo;
+use App\Barrio as Barrio;
+use App\EstadoCivil as EstadoCivil;
+use App\Estrato as Estrato;
+
 class PersonaController extends Controller {
 
 	/**
@@ -41,7 +45,11 @@ class PersonaController extends Controller {
         $nivelesEduc = NivelEducativo::all();
         $gruposPob = GrupoPoblacional::all();
         $comunas = Comuna::all();
-        return view('registro_persona', compact('generos', 'nivelesEduc', 'gruposPob', 'comunas'));
+        $barrios = Barrio::all();
+        $estados_civiles = EstadoCivil::all();
+        $estratos = Estrato::all();
+        return view('registro_persona', compact('generos', 'nivelesEduc', 'gruposPob',
+            'comunas', 'barrios', 'estados_civiles', 'estratos'));
 	}
 
 	/**

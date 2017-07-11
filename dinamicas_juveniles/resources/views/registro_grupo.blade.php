@@ -43,10 +43,6 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label class="" for="barrio">Barrio donde desarrolla su acción*</label>
-                        <input type="text" name="barrio" placeholder="" class="form-first-name form-control" id="barrio" required>
-                    </div>
 
                     <div class="form-group">
                         <label for="id_comuna">En cuáles de las siguientes líneas de trabajo actúa su grupo u organización:*</label>
@@ -58,8 +54,8 @@
                     </div>
 
                     <div class="form-group" id="group-otra_linea_trabajo" style="display: none">
-                        <label class="" for="otra_linea_trabajo">¿Cuál?</label>
-                        <input type="text" name="otra_linea_trabajo" placeholder="" class="form-control" id="otra_linea_trabajo">
+                        <label class="" for="otra_linea_trabajo">¿Cuál?*</label>
+                        <input type="text" name="otra_linea_trabajo" placeholder="" class="form-control" id="otra_linea_trabajo" required>
                     </div>
 
 
@@ -81,6 +77,16 @@
                     <div class="form-group">
                         <label class="" for="email">Correo electrónico*</label>
                         <input type="email" name="email" placeholder="" class="form-first-name form-control" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_barrio">Barrio*</label>
+                        <select name="id_barrio" id="id_barrio" class="form-control" required>
+                            <option value=""></option>
+                            @foreach($barrios as $barrio)
+                                <option value="{{$barrio->id}}">{{$barrio->valor}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -177,8 +183,8 @@
                     </div>
 
                     <div class="form-group" id="group-otra_condicion_afinidad" style="display: none">
-                        <label class="" for="otra_condicion_afinidad">¿Cuál?</label>
-                        <input type="text" name="otra_condicion_afinidad" placeholder="" class="form-control" id="otra_condicion_afinidad">
+                        <label class="" for="otra_condicion_afinidad">¿Cuál?*</label>
+                        <input type="text" name="otra_condicion_afinidad" placeholder="" class="form-control" id="otra_condicion_afinidad" required>
                     </div>
 
                     <div class="form-group">
@@ -191,8 +197,8 @@
                     </div>
 
                     <div class="form-group" id="group-otra_condicion_dificultad" style="display: none">
-                        <label class="" for="otra_condicion_dificultad">¿Cuál?</label>
-                        <input type="text" name="otra_condicion_dificultad" placeholder="" class="form-control" id="otra_condicion_dificultad">
+                        <label class="" for="otra_condicion_dificultad">¿Cuál?*</label>
+                        <input type="text" name="otra_condicion_dificultad" placeholder="" class="form-control" id="otra_condicion_dificultad" required>
                     </div>
 
                     <div class="form-group">
@@ -218,9 +224,50 @@
                     </div>
 
                     <div class="form-group" id="group-otro_apoyo" style="display: none">
-                        <label class="" for="otro_apoyo">¿Cuál?</label>
+
                         <input type="text" name="otro_apoyo" placeholder="" class="form-control" id="otro_apoyo">
                     </div>
+
+                    <div class="form-group">
+                        <label for="id_comuna">Procesos de interes*</label>
+                        <select name="procesos_interes[]" id="procesos_interes" class="form-control" multiple required>
+                            @foreach($procesos_interes as $proceso_interes)
+                                <option value="{{$proceso_interes->id}}">{{$proceso_interes->valor}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Cuando podemos encontrarnos?*</label>
+
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="" for="id_dia_reunion">Dia</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select name="id_dia_reunion" id="id_dia_reunion" class="form-control" required>
+                                        <option value=""></option>
+                                        @foreach($dias_reunion as $dia_reunion)
+                                            <option value="{{$dia_reunion->id}}">{{$dia_reunion->valor}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="" for="id_hora_reunion">Hora</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select name="id_hora_reunion" id="id_hora_reunion" class="form-control" required>
+                                        <option value=""></option>
+                                        @foreach($horas_reunion as $hora_reunion)
+                                            <option value="{{$hora_reunion->id}}">{{$hora_reunion->valor}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                    </div>
+
+
 
 
                     <button type="submit" class="btn btn-next">Siguiente</button>

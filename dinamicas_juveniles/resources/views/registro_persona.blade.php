@@ -29,6 +29,21 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="lugar_nacimiento">Lugar de nacimiento*</label>
+                        <input type="text" name="lugar_nacimiento" placeholder="" class="form-first-name form-control" id="lugar_nacimiento" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_estado_civil">Estado Civil*</label>
+                        <select name="id_estado_civil" id="id_estado_civil" class="form-control" required>
+                            <option value=""></option>
+                            @foreach($estados_civiles as $estado_civil)
+                                <option value="{{$estado_civil->id}}">{{$estado_civil->valor}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="id_genero">Género*</label>
                         <select name="id_genero" id="id_genero" class="form-control" required>
                             <option value=""></option>
@@ -78,9 +93,34 @@
                         </select>
                     </div>
 
+                    {{--<div class="form-group">--}}
+                        {{--<label class="" for="barrio"></label>--}}
+                        {{--<input type="text" name="barrio" placeholder="" class="form-first-name form-control" id="barrio" required>--}}
+                    {{--</div>--}}
+
                     <div class="form-group">
-                        <label class="" for="barrio">Barrio donde vive*</label>
-                        <input type="text" name="barrio" placeholder="" class="form-first-name form-control" id="barrio" required>
+                        <label for="id_barrio">Barrio donde vive*</label>
+                        <select name="id_barrio" id="id_barrio" class="form-control" required>
+                            <option value=""></option>
+                            @foreach($barrios as $barrio)
+                                <option value="{{$barrio->id}}">{{$barrio->valor}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="" for="direccion">Dirección*</label>
+                        <input type="text" name="direccion" placeholder="" class="form-control" id="direccion" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_estrato">Estrato*</label>
+                        <select name="id_estrato" id="id_estrato" class="form-control" required>
+                            <option value=""></option>
+                            @foreach($estratos as $estrato)
+                                <option value="{{$estrato->id}}">{{$estrato->id}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group">
